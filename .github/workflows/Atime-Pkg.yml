@@ -1,0 +1,18 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: Atime-Pkg
+
+jobs:
+  Atime-Pkg:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+    steps:
+      - uses: SiyaoIsHiding/r-asymptotic-testing@v1
+        with:
+          alpha: '"0.1"'
