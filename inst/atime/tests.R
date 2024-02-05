@@ -34,12 +34,22 @@ test.list <- list(
         sprintf('useDynLib\\("?%s"?', Package_regex),
         paste0('useDynLib(', new.Package_))
     }),
+    "Before"="be2f72e6f5c90622fe72e1c315ca05769a9dc854",
+    "Regression"="e793f53466d99f86e70fc2611b708ae8c601a451",
+    "Fixed"="58409197426ced4714af842650b0cc3b9e2cb842",
+    
     N = quote(10^seq(3, 8)),
-    expr = quote(data.table:::shallow(dt)),
+    expr = quote(data.table:::`[.data.table`(dt_mod, , N := .N, by = g)),
     setup = quote({
+      n <- N/100
       set.seed(1L)
-      dt <- data.table(a = sample(N, N))
-      setindex(dt, a)
+      dt <- data.table(
+        g = sample(seq_len(n), N, TRUE),
+        x = runif(N),
+        key = "g")
+      dt_mod <- copy(dt)
     })
   )
 )
+
+
